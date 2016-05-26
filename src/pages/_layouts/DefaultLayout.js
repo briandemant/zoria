@@ -1,8 +1,9 @@
 import React from 'react';
+import BaseStyle from './BaseStyle';
 
 const propTypes = {
 	title : React.PropTypes.number.isRequired,
-	body : React.PropTypes.string.isRequired
+	body  : React.PropTypes.string.isRequired
 };
 
 const defaultProps = {
@@ -12,16 +13,23 @@ const defaultProps = {
 class DefaultLayout extends React.Component {
 	render() {
 		return (
-			<html lang='da'>
-			<head>
-				<meta charset='UTF-8'/>
-				<title>[ {this.props.title} ]</title>
-				<link rel='stylesheet' type='text/css' href='/css/app.css'/>
-			</head>
-			<body>
-				{this.props.children}
-			</body>
-			</html>
+				<html lang='da'>
+				<head>
+					<meta charset='UTF-8' />
+					<title>[ {this.props.title} ]</title>
+					<BaseStyle filename="base" />
+				</head>
+				<body>
+					<div className="container-fluid">
+						<div className="row">
+							<div className="col-sm-12">
+								{this.props.children}
+								<button className="btn btn-primary">Click</button>
+							</div>
+						</div>
+					</div>
+				</body>
+				</html>
 		);
 	}
 }
