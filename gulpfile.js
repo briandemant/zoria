@@ -9,6 +9,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var notify = require('gulp-notify');
 var nodemon = require('gulp-nodemon');
 var sourcemaps = require('gulp-sourcemaps');
+var ignore = require('gulp-ignore');
 
 gulp.task('scss:dev', function() {
 	return gulp.src('./src/scss/*.scss')
