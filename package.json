@@ -1,0 +1,54 @@
+{
+  "name": "zoria",
+  "version": "0.0.1",
+  "description": "react based living styleguide",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "lint": "eslint {src,test}",
+    "dev": "gul["
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guloggratis/zoria.git"
+  },
+  "keywords": [
+    "react.js",
+    "styleguide",
+    "less"
+  ],
+  "author": "Brian Demant <brian.demant@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/guloggratis/zoria/issues"
+  },
+  "homepage": "https://github.com/guloggratis/zoria#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "faker": "^3.1.0",
+    "font-awesome": "^4.6.1",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-router": "^2.4.1"
+  },
+  "devDependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-flow-strip-types": "^6.8.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-register": "^6.9.0",
+    "browser-sync": "^2.12.8",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-less": "^3.1.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-nodemon": "^2.0.7",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemap": "^1.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "mocha": "^2.5.2",
+    "nodemon": "^1.9.2",
+    "unit.js": "^2.0.0"
+  }
+}
