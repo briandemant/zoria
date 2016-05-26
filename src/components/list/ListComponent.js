@@ -11,14 +11,13 @@ const defaultProps = {
 };
 
 class List extends React.Component {
-    render() {
-        let title;
-        if (this.props.title) {
-            title = (<h5 className="list">{this.props.title}</h5>)
-        }
-        return (
-            <ul>
-                <input/>
+	render() {
+		let title;
+		if (this.props.title) {
+			title = (<h5 className="list">{this.props.title}</h5>)
+		}
+		return (
+			<ul>
 				{title}
 				{this.props.items.map(function (item) {
                     return <li>{item}</li>
