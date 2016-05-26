@@ -1,13 +1,13 @@
 import React, {PropTypes} from 'react';
 
 const propTypes = {
-	id : PropTypes.number.isRequired,
-	url : PropTypes.string.isRequired,
-	text : PropTypes.string,
+    id: PropTypes.number.isRequired,
+    url: PropTypes.string.isRequired,
+    text: PropTypes.string
 };
 
 const defaultProps = {
-	title : 'Hello World',
+    title: 'Hello Worlds'
 };
 
 class List extends React.Component {
@@ -19,12 +19,12 @@ class List extends React.Component {
 		return (
 			<ul>
 				{title}
-				{this.props.items.map(function(item) {
-					return <li>{item}</li>
-				})}
-			</ul>
-		)
-	}
+				{this.props.items.map(function (item) {
+                    return <li>{item}</li>
+                })}
+            </ul>
+        )
+    }
 }
 
 List.propTypes = propTypes;

@@ -17,6 +17,7 @@ class DefaultLayout extends React.Component {
 				<meta charset='UTF-8'/>
 				<title>[ {this.props.title} ]</title>
 				<link rel='stylesheet' type='text/css' href='/css/app.css'/>
+
 			</head>
 			<body>
 				{this.props.children}
