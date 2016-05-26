@@ -53,32 +53,38 @@ gulp.task('server', function() {
 
 gulp.task('dev', ['less', 'server'], function() {
 
-	browserSync.init("./public", {
-		notify : false,
-		browser : false,// "google chrome",
-		logConnections : true,
-
-		proxy : {
-			target : 'http://localhost:5000',
-			proxyReq : [
-				function(proxyReq) {
-					//	proxyReq.setHeader('X-Special-Proxy-Header', 'foobar');
+	setTimeout(function() {
+		browserSync.init("./public", {
+				notify : false,
+				browser : null,// "google chrome",
+				logConnections : true,
+		
+				proxy : {
+					target : 'http://localhost:5000',
+					proxyReq : [
+						function(proxyReq) {
+							//	proxyReq.setHeader('X-Special-Proxy-Header', 'foobar');
+						}
+					],
+		
+					proxyRes : [
+						function(res) {
+							//console.log(res.headers);
+						}
+					]
 				}
-			],
-
-			proxyRes : [
-				function(res) {
-					//console.log(res.headers);
-				}
-			]
-		}
-
-
-	});
+		
+		
+			});
+	},1000)
 	gulp.watch("./src/less/**/*.less", ['less']);
 	gulp.watch("./public/*.html").on('change', browserSync.reload);
 	gulp.watch("./src/_layouts/*.js").on('change', browserSync.reload);
-	gulp.watch("./src/pages/**/*.js").on('change', browserSync.reload);
+	gulp.watch("./src/pages/**/*.js").on('change', browserSync.reload); 
+	gulp.watch("./src/pages/**/*.js").on('change', function() {
+		console.log(arguments);
+
+	}); 
 	gulp.watch("./src/components/**/*.js").on('change', browserSync.reload);
 })
 ;

@@ -10,7 +10,7 @@ const defaultProps = {
     title: 'Hello Worlds'
 };
 
-class List extends React.Component {
+export class List extends React.Component {
 	render() {
 		let title;
 		if (this.props.title) {

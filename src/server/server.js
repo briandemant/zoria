@@ -9,33 +9,34 @@ var componentRoot = path.normalize(path.join(__dirname, "..", "components"))
 
 var app = express();
 app.use(express.static('public'));
- 
-app.get(/^\/([^/]+)?$/, function(req, res, next){
+
+app.get(/^\/([^/]+)?(?:\/(.+))?$/, function(req, res, next) {
 	var page = req.params[0] || "index";
-	var pagePath = path.join(pageRoot,page,page.charAt(0).toUpperCase() + page.slice(1)+"Page");
- 
-	res.set("Content-Type","text/html; charset=utf-8");
-	// console.log("........");
+	var pagePath = path.join(pageRoot, page, page.charAt(0).toUpperCase() + page.slice(1) + "Page");
+
+	res.set("Content-Type", "text/html; charset=utf-8");
+
 	// console.log(require.cache); 
 	if (process.env.NODE_ENV === 'development') {
 		Object.keys(require.cache).forEach(function(file) {
-			if (file.indexOf(pageRoot) > -1) { 
+			if (file.indexOf(pageRoot) > -1) {
 				delete require.cache[file];
 			} else if (file.indexOf(componentRoot) > -1) {
 				delete require.cache[file];
 			}
 		})
 	}
-	
+
 	try {
-		let page = require(pagePath); 
-		
-		var content = ReactDOMServer.renderToStaticMarkup(page);
+		var page = require(pagePath);
+
+		var pathElements = req.params[1] ? req.params[1].split(/\//) : [];
+		var content = ReactDOMServer.renderToStaticMarkup(page(req.query, pathElements, req, res));
 		console.log(content);
 
 		res.end(content);
 	} catch (e) {
-		console.log(e); 
+		console.log(e);
 		res.end(`<html lang='en'>
 			<head>
 				<meta charset='UTF-8'/>

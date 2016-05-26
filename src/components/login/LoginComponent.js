@@ -15,7 +15,7 @@ export class Login extends React.Component {
             <div class="panel-body">
                 <fieldset>
                     <div class="form-group">
-                        <input class="form-control" placeholder={this.props.placeholder} name="email" type="email" autofocus />
+                        <input class="form-control" placeholder={this.props.placeholder} value={this.props.username} name="email" type="email" autofocus />
                     </div>
                     <div class="form-group">
                         <input className="form-control" placeholder="Password" name="password" type="password"  />
