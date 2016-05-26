@@ -11,12 +11,6 @@ const defaultProps = {
 };
 
 class List extends React.Component {
-	static propTypes = {
-       title: React.PropTypes.string.isRequired,
-       price: React.PropTypes.number.isRequired,
-       initialQty: React.PropTypes.number
-   } 
-	
 	render() {
 		let title;
 		if (this.props.title) {
