@@ -1,4 +1,5 @@
 import React from 'react';
+import BaseStyle from './BaseStyle';
 
 const propTypes = {
 	title : React.PropTypes.number.isRequired,
@@ -16,11 +17,17 @@ class DefaultLayout extends React.Component {
 			<head>
 				<meta charset='UTF-8'/>
 				<title>[ {this.props.title} ]</title>
-				<link rel='stylesheet' type='text/css' href='/css/app.css'/>
-
+				<BaseStyle filename="base"/>
 			</head>
 			<body>
-				{this.props.children}
+				<div className="container-fluid">
+					<div className="row">
+						<div className="col-sm-12">
+							{this.props.children}
+							<button className="btn btn-primary">Click</button>
+						</div>
+					</div>
+				</div>
 			</body>
 			</html>
 		);
