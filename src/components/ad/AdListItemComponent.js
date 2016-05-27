@@ -2,20 +2,20 @@
 import React, {PropTypes} from 'react';
 var Ad = require('./_AdComponent');
 
-class AdList extends Ad {
-
+export class AdListItem extends Ad { 
 	render() {
+		var itemUrl = `ad/${this.props.id}`;
 		return (
 				<li className="card col-sm-3 cmp-ad-list-item">
-					<a href="{this.props.adUrl}">
-						<h1 className="ad">{this.props.adHeader}</h1>
-						<p>{this.props.adDescription}</p>
-						<p>Kr. <span>{this.props.adPrice}</span></p>
+					<a href={itemUrl}>
+						<h1 className="ad">{this.props.title}</h1>
+						<p>{this.props.description}</p>
+						<p>Kr. <span>{this.props.price}</span></p>
 					</a>
 				</li>
 		)
 	}
 }
 
-AdList.propTypes = Ad.propTypes;
-export default AdList;
+AdListItem.propTypes = Ad.propTypes;
+export default AdListItem;

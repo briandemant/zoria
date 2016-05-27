@@ -10,6 +10,20 @@ var componentRoot = path.normalize(path.join(__dirname, "..", "components"))
 var app = express();
 app.use(express.static('public'));
 
+function sendError(e, res) {
+	console.log(e);
+	res.end(`<html lang='en'>
+			<head>
+				<meta charset='UTF-8'/>
+				<title>Fail!</title>
+			</head>
+			<body>
+				${e}
+			</body>
+		</html>
+		`);
+}
+
 app.get(/^\/([^/]+)?(?:\/(.+))?$/, function(req, res, next) {
 	var page = req.params[0] || "index";
 	var pagePath = path.join(pageRoot, page, page.charAt(0).toUpperCase() + page.slice(1) + "Page");
@@ -33,28 +47,20 @@ app.get(/^\/([^/]+)?(?:\/(.+))?$/, function(req, res, next) {
 		var pathElements = req.params[1] ? req.params[1].split(/\//) : [];
 
 		const pageContent = page(req.query, pathElements, req, res);
-
+	  
 		if (pageContent.then) {
 			pageContent.then(function(xxx) {
 				var content = ReactDOMServer.renderToStaticMarkup(xxx);
 				res.end(content);
-			})
+			}).catch(function (err) {
+				sendError(err,res)
+			});
 		} else {
 			var content = ReactDOMServer.renderToStaticMarkup(pageContent);
 			res.end(content);
 		}
 	} catch (e) {
-		console.log(e);
-		res.end(`<html lang='en'>
-			<head>
-				<meta charset='UTF-8'/>
-				<title>Fail!</title>
-			</head>
-			<body>
-				${e}
-			</body>
-		</html>
-		`);
+		sendError(e, res);
 	}
 })
 

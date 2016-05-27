@@ -100,6 +100,8 @@ gulp.task('server', function() {
 		this.stdout.on("data", function(data) {
 			if (/server ready/.test(data)) {
 				browserSync.reload();
+			} else {
+				console.log(data.toString()); 
 			}
 		})
 	});

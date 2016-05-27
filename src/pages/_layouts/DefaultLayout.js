@@ -1,29 +1,28 @@
 import React from 'react';
-import BaseStyle from './BaseStyle';
+import {Style} from '../../components';
 
 const propTypes = {
-	title : React.PropTypes.number.isRequired,
-	body : React.PropTypes.string.isRequired
+	title : React.PropTypes.string
 };
 
 const defaultProps = {
 	title : "no title given"
 };
 
-class DefaultLayout extends React.Component {
-	render() {
+export class DefaultLayout extends React.Component {
+	render() { 
 		return (
 			<html lang='da'>
 			<head>
 				<meta charset='UTF-8'/>
 				<title>[ {this.props.title} ]</title>
-				<BaseStyle filename="base"/>
+				<Style filename="base"/>
 			</head>
 			<body>
 				<div className="container-fluid">
 					<div className="row">
 						<div className="col-sm-12">
-							{this.props.children} 
+							{this.props.children}
 						</div>
 					</div>
 				</div>
@@ -36,5 +35,4 @@ class DefaultLayout extends React.Component {
 
 DefaultLayout.propTypes = propTypes;
 DefaultLayout.defaultProps = defaultProps;
-
-export default DefaultLayout 
+export default DefaultLayout
