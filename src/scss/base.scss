@@ -5,11 +5,4 @@
 @import "bootstrap-variables-override";
 @import "bootstrap";
 
-$jesj : red;
-
-.ad { 
-	color : $jesj;
-	font-family: Helvetica, Arial, sans-serif;
-}
-
 @import "components";
