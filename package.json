@@ -39,6 +39,7 @@
     "babel-register": "^6.9.0",
     "bootstrap": "^4.0.0-alpha.2",
     "browser-sync": "^2.12.8",
+    "glob": "^7.0.3",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cached": "^1.1.0",

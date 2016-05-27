@@ -4581,4 +4581,7 @@ a.bg-danger:focus, a.bg-danger:hover {
   font-family: Helvetica, Arial, sans-serif; }
 
 body {
-  background: burlywood; }
+  background: #f66; }
+
+.list {
+  background: green; }

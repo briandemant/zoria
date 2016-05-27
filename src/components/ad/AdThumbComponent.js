@@ -1,6 +1,6 @@
 "use strict";
 import React, {PropTypes} from 'react';
-var Ad = require('./AdComponent');
+var Ad = require('./_AdComponent');
 
 class AdThumb extends Ad {
 

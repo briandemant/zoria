@@ -23,8 +23,7 @@ class DefaultLayout extends React.Component {
 				<div className="container-fluid">
 					<div className="row">
 						<div className="col-sm-12">
-							{this.props.children}
-							<button className="btn btn-primary">Click</button>
+							{this.props.children} 
 						</div>
 					</div>
 				</div>

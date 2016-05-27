@@ -10,6 +10,45 @@ var notify = require('gulp-notify');
 var nodemon = require('gulp-nodemon');
 var sourcemaps = require('gulp-sourcemaps');
 var ignore = require('gulp-ignore');
+var glob = require('glob');
+var gutil = require('gulp-util');
+var fs = require('fs');
+var path = require('path');
+
+gulp.task('generate-component-lists', [], function(done) {
+	glob("./src/components/**/*.scss", function(err, files) {
+		var content = `// auto generated ${new Date()} .. please don't edit
+@import "${files.join("\";\n@import \"")}";`;
+
+		fs.writeFileSync("./src/scss/_components.scss", content)
+
+		gutil.log('Generated', gutil.colors.blue("component scss"));
+		gutil.log('     from', gutil.colors.yellow(files.map((file)=> {return path.basename(file, "-components.scss")}).join(", ")));
+		glob("./src/components/**/*Component.js", function(err, files) {
+			files = files.filter((file)=> {return path.basename(file)[0] != '_'})
+			var content = `// auto generated ${new Date()} .. please don't edit\n`
+			var list = [];
+			content += files.map(function(file) {
+				let name = path.basename(file, "Component.js");
+				list.push(name);
+				return `import { ${name} } from '.${file.replace("./src/components","")}'`
+			}).join("\n")
+
+			content += `\n\nexport default { ${list.join(", ")} }`
+
+			fs.writeFileSync("./src/components/index.js", content);
+			gutil.log('Generated', gutil.colors.blue("component index.js"));
+			gutil.log('     from', gutil.colors.yellow(list.join(", ")));
+			done();
+		})
+	})
+});
+
+// just to help when learning gulp
+gulp.task('before', function() { gutil.log(gutil.colors.red("before")); });
+gulp.task('long', function(done) { setTimeout(done, 5000)});
+gulp.task('after', function() { gutil.log(gutil.colors.red("after")); });
+gulp.task('gaah', ['generate-component-lists', 'after'], function() { gutil.log(gutil.colors.red("gaah")); });
 
 gulp.task('scss:dev', function() {
 	return gulp.src('./src/scss/*.scss')
@@ -21,10 +60,10 @@ gulp.task('scss:dev', function() {
 });
 
 gulp.task('scss:dev:components', function() {
-	return gulp.src('./src/scss/*.scss')
-		.pipe(sass().on('error', sass.logError))
-		.pipe(autoprefixer('last 2 version', 'ie >= 9'))
-		.pipe(gulp.dest('./public/css/'));
+   return gulp.src('./src/scss/*.scss')
+           .pipe(sass().on('error', sass.logError))
+           .pipe(autoprefixer('last 2 version', 'ie >= 9'))
+           .pipe(gulp.dest('./public/css/'));
 });
 
 gulp.task('scss:dist', function() {
@@ -51,19 +90,16 @@ gulp.task('server', function() {
 		env : {'NODE_ENV' : 'development'},
 		ignore : ["test/*", "src/pages/*", "src/components/*"],
 		watch : ["src/server", "src/lib"],
-		stderr : true,
+		stderr : false,
 		stdout : false
 	});
-	mon.on('start', function() {
-		console.log('restarting server!');
+	mon.on('restart', function() {
+		gutil.log(gutil.colors.blue("restart server"));
 	})
-	mon.on('readable', function() {
+	mon.on('readable', function() { 
 		this.stdout.on("data", function(data) {
-			console.log(data.toString());
 			if (/server ready/.test(data)) {
-				console.log('reload!');
 				browserSync.reload();
-			} else {
 			}
 		})
 	});
@@ -74,11 +110,9 @@ gulp.task('copy-bootstrap', function() {
 		.pipe(gulp.dest('./src/scss/bootstrap-scss/'));
 });
 
-gulp.task('dev', ['scss:dev', 'server', 'copy-bootstrap'], function() {
-
-
+gulp.task('dev', ['scss:dev', 'server'], function() {
 	browserSync.init("./public", {
-		notify : false,
+		notify : true,
 		browser : false,// "google chrome",
 		logConnections : true,
 		open : false,
@@ -99,18 +133,15 @@ gulp.task('dev', ['scss:dev', 'server', 'copy-bootstrap'], function() {
 
 
 	});
-	gulp.watch('./src/components/**/*.scss', ['scss:dev:components']);
-	gulp.watch('./src/scss/**/*.scss', ['scss:dev']);
+	gulp.watch('./src/scss/**/*.scss', ['scss:dev']); 
+	gulp.watch('./src/components/**/*.scss', ['scss:dev:components']); 
 	gulp.watch("./public/*.html").on('change', browserSync.reload);
 	gulp.watch("./src/_layouts/*.js").on('change', browserSync.reload);
 	gulp.watch("./src/pages/**/*.js").on('change', browserSync.reload);
-	gulp.watch("./src/pages/**/*.js").on('change', function() {
-		console.log(arguments);
-
-	});
 	gulp.watch("./src/components/**/*.js").on('change', browserSync.reload);
 })
 ;
 gulp.task('dist', ['scss:dist']);
 
-gulp.task('default', ["dev"]);
+gulp.task('prepare', ['generate-component-lists', "copy-bootstrap"]);
+gulp.task('default', ['prepare', "dev"]);

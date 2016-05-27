@@ -32,6 +32,7 @@ app.get(/^\/([^/]+)?(?:\/(.+))?$/, function(req, res, next) {
 
 		var pathElements = req.params[1] ? req.params[1].split(/\//) : [];
 		var content = ReactDOMServer.renderToStaticMarkup(page(req.query, pathElements, req, res));
+		
 		console.log(content);
 
 		res.end(content);
