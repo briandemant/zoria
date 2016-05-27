@@ -1,29 +1,27 @@
 import React, {PropTypes} from 'react';
 
-import {Button, AdList} from '../../components';
-
 const propTypes = {
 	filename : PropTypes.string.isRequired
 };
 
 const defaultProps = {};
 
-export class Style extends React.Component {
+export class Script extends React.Component {
 	render() {
-		var ext = '.min.css';
+		var ext = '.min.js';
 
 		if (process.env.NODE_ENV === 'development') {
-			ext = '.css';
+			ext = '.js';
 		}
 
-		var url = '/css/' + this.props.filename + ext;
+		var url = '/js/' + this.props.filename + ext;
 
 		return (
-			<link rel='stylesheet' type='text/css' href={url}/>
+			<script src={url}></script>
 		)
 	}
 }
 
-Style.propTypes = propTypes;
-Style.defaultProps = defaultProps;
-export default Style;
+Script.propTypes = propTypes;
+Script.defaultProps = defaultProps;
+export default Script;
