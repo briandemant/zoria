@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-import {Button,AdList} from '../../components';
+import {Button, AdList} from '../../components';
 
 const propTypes = {
 	username : PropTypes.string.isRequired,
@@ -23,7 +23,7 @@ export class Login extends React.Component {
 					<div class="form-group">
 						<input className="form-control" placeholder="Password" name="password" type="password"/>
 					</div>
-					<button type="submit" class="btn btn-lg btn-success btn-block">Login</button> 
+					<button type="submit" class="btn btn-lg btn-success btn-block">Login</button>
 				</fieldset>
 			</div>
 		)

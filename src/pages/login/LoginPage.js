@@ -1,6 +1,6 @@
 import React from 'react';
 
-var DefaultLayout = require('../_layouts/DefaultLayout');
+var DefaultLayout = require('../_layouts/DefaultLayout').DefaultLayout;
 
 import {Login} from '../../components';
 

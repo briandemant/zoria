@@ -3,6 +3,8 @@ var React = require('react');
 var express = require('express');
 
 var path = require('path');
+var fs = require('fs');
+var purify = require('purify-css');
 
 var pageRoot = path.normalize(path.join(__dirname, "..", "pages"))
 var componentRoot = path.normalize(path.join(__dirname, "..", "components"))
@@ -24,9 +26,30 @@ function sendError(e, res) {
 		`);
 }
 
+function renderAndSend(xxx, pageName, res) {
+	var content = ReactDOMServer.renderToStaticMarkup(xxx);
+
+	var options = {
+		output : `./public/css/${pageName}.purified.css`,
+
+		// Will minify CSS code in addition to purify.
+		minify: true,
+
+		// Logs out removed selectors.
+		rejected : true
+	};
+	console.log(options.output);
+
+	const cssSource = fs.readFileSync('./public/css/base.css', {encoding : 'utf8'});
+	purify(content, cssSource, options);
+
+
+	// console.log(content);
+	res.end(content);
+}
 app.get(/^\/([^/]+)?(?:\/(.+))?$/, function(req, res, next) {
-	var page = req.params[0] || "index";
-	var pagePath = path.join(pageRoot, page, page.charAt(0).toUpperCase() + page.slice(1) + "Page");
+	var pageName = req.params[0] || "index";
+	var pagePath = path.join(pageRoot, pageName, pageName.charAt(0).toUpperCase() + pageName.slice(1) + "Page");
 
 	res.set("Content-Type", "text/html; charset=utf-8");
 
@@ -47,17 +70,15 @@ app.get(/^\/([^/]+)?(?:\/(.+))?$/, function(req, res, next) {
 		var pathElements = req.params[1] ? req.params[1].split(/\//) : [];
 
 		const pageContent = page(req.query, pathElements, req, res);
-	  
+
 		if (pageContent.then) {
 			pageContent.then(function(xxx) {
-				var content = ReactDOMServer.renderToStaticMarkup(xxx);
-				res.end(content);
-			}).catch(function (err) {
-				sendError(err,res)
+				renderAndSend(xxx, pageName, res);
+			}).catch(function(err) {
+				sendError(err, res)
 			});
 		} else {
-			var content = ReactDOMServer.renderToStaticMarkup(pageContent);
-			res.end(content);
+			renderAndSend(pageContent, pageName, res);
 		}
 	} catch (e) {
 		sendError(e, res);

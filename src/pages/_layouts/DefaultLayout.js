@@ -19,7 +19,7 @@ export class DefaultLayout extends React.Component {
 				<Style filename="base"/>
 			</head>
 			<body>
-				<div className="container-fluid">
+				<div className="container">
 					<div className="row">
 						<div className="col-sm-12">
 							{this.props.children}
