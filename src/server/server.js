@@ -31,11 +31,18 @@ app.get(/^\/([^/]+)?(?:\/(.+))?$/, function(req, res, next) {
 		var page = require(pagePath);
 
 		var pathElements = req.params[1] ? req.params[1].split(/\//) : [];
-		var content = ReactDOMServer.renderToStaticMarkup(page(req.query, pathElements, req, res));
-		
-		console.log(content);
 
-		res.end(content);
+		const pageContent = page(req.query, pathElements, req, res);
+
+		if (pageContent.then) {
+			pageContent.then(function(xxx) {
+				var content = ReactDOMServer.renderToStaticMarkup(xxx);
+				res.end(content);
+			})
+		} else {
+			var content = ReactDOMServer.renderToStaticMarkup(pageContent);
+			res.end(content);
+		}
 	} catch (e) {
 		console.log(e);
 		res.end(`<html lang='en'>

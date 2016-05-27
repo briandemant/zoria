@@ -24,7 +24,7 @@ const data = require('./data.js');
 export default  function(qs, path, req, res) {
 	data.qs = qs;
 	data.path = path;
-	data.path = req.path;
-	return <LoginPage {...data}/>
+	data.path = req.path; 
+	return Promise.resolve(<LoginPage {...data}/>)
 };
  

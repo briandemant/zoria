@@ -1,4 +1,4 @@
-// auto generated Fri May 27 2016 02:56:25 GMT+0200 (CEST) .. please don't edit
+// auto generated Fri May 27 2016 03:18:48 GMT+0200 (CEST) .. please don't edit
 import { AdList } from './ad/AdListComponent.js'
 import { AdListItem } from './ad/AdListItemComponent.js'
 import { AdThumb } from './ad/AdThumbComponent.js'
