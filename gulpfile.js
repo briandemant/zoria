@@ -107,9 +107,29 @@ gulp.task('server', function() {
 	});
 });
 
-gulp.task('copy-bootstrap', function() {
+gulp.task('copy:bootstrap:scss', function() {
 	return gulp.src('./node_modules/bootstrap/scss/**/*.scss')
 		.pipe(gulp.dest('./src/scss/bootstrap-scss/'));
+});
+
+gulp.task('copy:bootstrap:js', function() {
+	return gulp.src('./node_modules/bootstrap/dist/js/**/*.js')
+		.pipe(gulp.dest('./public/js/'));
+});
+
+gulp.task('copy:jQuery:base', function() {
+	return gulp.src('./node_modules/jquery/dist/**/*')
+		.pipe(gulp.dest('./public/js/'));
+});
+
+gulp.task('copy:tether:js', function() {
+	return gulp.src('./node_modules/tether/dist/js/**/*')
+		.pipe(gulp.dest('./public/js/'));
+});
+
+gulp.task('copy:tether:css', function() {
+	return gulp.src('./node_modules/tether/dist/css/**/*')
+		.pipe(gulp.dest('./public/css/'));
 });
 
 gulp.task('dev', ['scss:dev', 'server'], function() {
@@ -145,5 +165,11 @@ gulp.task('dev', ['scss:dev', 'server'], function() {
 ;
 gulp.task('dist', ['scss:dist']);
 
-gulp.task('prepare', ['generate-component-lists', "copy-bootstrap"]);
+gulp.task('prepare', ['generate-component-lists', 
+                      "copy:bootstrap:scss", 
+                      "copy:bootstrap:js", 
+                      "copy:tether:js", 
+                      "copy:tether:css", 
+                      "copy:jQuery:base"]
+);
 gulp.task('default', ['prepare', "dev"]);
