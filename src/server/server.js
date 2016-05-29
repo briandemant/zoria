@@ -10,7 +10,8 @@ var pageRoot = path.normalize(path.join(__dirname, "..", "pages"))
 var componentRoot = path.normalize(path.join(__dirname, "..", "components"))
 
 var app = express();
-app.use(express.static('public'));
+// app.use(express.compress());
+app.use(express.static('public',{maxAge:'30s'}));
 
 function sendError(e, res) {
 	console.log(e);
@@ -28,7 +29,7 @@ function sendError(e, res) {
 
 function renderAndSend(xxx, pageName, res) {
 	var content = ReactDOMServer.renderToStaticMarkup(xxx);
-
+	res.end(content);
 	var options = {
 		output : `./public/css/${pageName}.purified.css`,
 
@@ -43,9 +44,8 @@ function renderAndSend(xxx, pageName, res) {
 	const cssSource = fs.readFileSync('./public/css/base.css', {encoding : 'utf8'});
 	purify(content, cssSource, options);
 
-
-	// console.log(content);
-	res.end(content);
+ 
+	
 }
 app.get(/^\/([^/]+)?(?:\/(.+))?$/, function(req, res, next) {
 	var pageName = req.params[0] || "index";

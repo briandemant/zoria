@@ -1,15 +1,20 @@
-"use strict";
 import React, {PropTypes} from 'react';
-var Ad = require('./_AdComponent');
-
 import {AdListItem} from './AdListItemComponent';
 
-export class AdList extends Ad {
+const propTypes = {
+	items : PropTypes.array.isRequired,
+	size : PropTypes.number.isRequired
+};
+
+const defaultProps = {
+	size : 'large'
+};
+export class AdList extends React.Component {
 	render() {
 		var ads = this.props.items.map((item)=> {
 			return <AdListItem {...item} />
 		});
-
+ 
 		return (
 			<ul className={"card cmp-ad-list cmp-ad-list-" + this.props.size}>
 				{ads}
@@ -19,5 +24,6 @@ export class AdList extends Ad {
 }
 
 
-AdList.propTypes = Ad.propTypes;
+AdList.propTypes = propTypes;
+AdList.defaultProps = defaultProps;
 export default AdList;

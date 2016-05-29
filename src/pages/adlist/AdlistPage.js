@@ -9,27 +9,27 @@ import {AdList, Json} from '../../components';
 
 class AdlistPage extends React.Component {
 	render() {
-		var debug = <Json data={Db.getRawData()}/>;
+		var debug// = <Json data={this.props.raw}/>;
 		return (
 			<DefaultLayout>
 				<div>
 					<h1>Ads:</h1>
+					{debug}
 					<AdList items={this.props.items}/>
-				
 				</div>
-				{debug}
+
 			</DefaultLayout>
 		)
 	}
-
 }
 
+
 export default function(qs, path, req, res) {
-	return new Promise(function(resolve, reject) {
-		var data = {items : []};
-		for (var i = 0; i < 8; i++) {
-			data.items.push( Db.getAd(i))
-		}
-		resolve(<AdlistPage {...data} item={data.items}/>);
+	return Db.getAds([1, 2, 3, 4, 5, 6, 7, 8
+		, 9, 10, 11, 12, 13, 14, 15, 16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+	]).then(function(ads) {
+		return Db.getRawData().then(function(raw) {
+			return <AdlistPage raw={raw} items={ads}/>
+		})
 	})
 };
