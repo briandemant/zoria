@@ -26,7 +26,7 @@
   "dependencies": {
     "express": "^4.13.4",
     "faker": "^3.1.0",
-    "font-awesome": "^4.6.1",
+    "font-awesome": "^4.6.3",
     "purify-css": "^1.1.9",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",

@@ -16,7 +16,7 @@ export class Db {
 				name : faker.name.findName()
 			}
 		}
-		return data.users[id]
+		return Promise.resolve(data.users[id])
 	}
 
 	getAd(id=null) {
@@ -32,11 +32,11 @@ export class Db {
 				user : this.getUser()
 			}
 		}
-		return data.ads[id]
+		return Promise.resolve(data.ads[id])
 	}
 
 	getRawData() { 
-		return data
+		return  Promise.resolve(data)
 	}
 }
 export default new Db();

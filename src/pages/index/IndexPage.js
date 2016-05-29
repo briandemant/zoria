@@ -8,16 +8,16 @@ import {Login} from '../../components';
 
 class IndexPage extends React.Component {
 	render() {
-		
-		var pageLinks = this.props.files.map(function(file) { 
+
+		var pageLinks = this.props.files.map(function(file) {
 			var page = path.basename(file, "Page.js");
 			return <li><a href={page.toLowerCase()}>{page}</a></li>
 		});
-		
+
 		return (
 			<DefaultLayout>
-				<div>
-					<h1>Pages:</h1>
+				<div className="card">
+					<h1><i className="fa fa-star"/> Pages:</h1>
 					{/*<pre>demo: {JSON.stringify(this.props, true, 2)}</pre>*/}
 					<ul>{pageLinks}</ul>
 				</div>

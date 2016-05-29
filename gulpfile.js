@@ -15,9 +15,9 @@ var gutil = require('gulp-util');
 var fs = require('fs');
 var path = require('path');
 
-gulp.task('generate-component-lists', [], function(done) {
+gulp.task('generate:component-lists', [], function(done) {
 	glob("./src/components/**/*.scss", function(err, files) {
-		var content = `// auto generated ${new Date()} .. please don't edit
+		var content = `// auto generated .. please don't edit
 @import "${files.join("\";\n@import \"")}";`;
 
 		fs.writeFileSync("./src/scss/_components.scss", content)
@@ -26,12 +26,12 @@ gulp.task('generate-component-lists', [], function(done) {
 		gutil.log('     from', gutil.colors.yellow(files.map((file)=> {return path.basename(file, "-components.scss")}).join(", ")));
 		glob("./src/components/**/*Component.js", function(err, files) {
 			files = files.filter((file)=> {return path.basename(file)[0] != '_'})
-			var content = `// auto generated ${new Date()} .. please don't edit\n`
+			var content = `// auto generated .. please don't edit\n`
 			var list = [];
 			content += files.map(function(file) {
 				let name = path.basename(file, "Component.js");
 				list.push(name);
-				return `import { ${name} } from '.${file.replace("./src/components","")}'`
+				return `import { ${name} } from '.${file.replace("./src/components", "")}'`
 			}).join("\n")
 
 			content += `\n\nexport default { ${list.join(", ")} }`
@@ -60,10 +60,10 @@ gulp.task('scss:dev', function() {
 });
 
 gulp.task('scss:dev:components', function() {
-   return gulp.src('./src/scss/*.scss')
-           .pipe(sass().on('error', sass.logError))
-           .pipe(autoprefixer('last 2 version', 'ie >= 9'))
-           .pipe(gulp.dest('./public/css/'));
+	return gulp.src('./src/scss/*.scss')
+		.pipe(sass().on('error', sass.logError))
+		.pipe(autoprefixer('last 2 version', 'ie >= 9'))
+		.pipe(gulp.dest('./public/css/'));
 });
 
 gulp.task('scss:dist', function() {
@@ -96,12 +96,12 @@ gulp.task('server', function() {
 	mon.on('restart', function() {
 		gutil.log(gutil.colors.blue("restart server"));
 	})
-	mon.on('readable', function() { 
+	mon.on('readable', function() {
 		this.stdout.on("data", function(data) {
 			if (/server ready/.test(data)) {
 				browserSync.reload();
 			} else {
-				console.log(data.toString()); 
+				console.log(data.toString());
 			}
 		})
 	});
@@ -110,6 +110,14 @@ gulp.task('server', function() {
 gulp.task('copy:bootstrap:scss', function() {
 	return gulp.src('./node_modules/bootstrap/scss/**/*.scss')
 		.pipe(gulp.dest('./src/scss/bootstrap-scss/'));
+});
+gulp.task('copy:font-awesome:scss', function() {
+	return gulp.src('./node_modules/font-awesome/scss/**/*.scss')
+		.pipe(gulp.dest('./src/scss/font-awesome/'));
+});
+gulp.task('copy:font-awesome:fonts', function() {
+	return gulp.src('./node_modules/font-awesome/fonts/*')
+		.pipe(gulp.dest('./public/fonts/font-awesome/'));
 });
 
 gulp.task('copy:bootstrap:js', function() {
@@ -155,8 +163,8 @@ gulp.task('dev', ['scss:dev', 'server'], function() {
 
 
 	});
-	gulp.watch('./src/scss/**/*.scss', ['scss:dev']); 
-	gulp.watch('./src/components/**/*.scss', ['scss:dev:components']); 
+	gulp.watch('./src/scss/**/*.scss', ['scss:dev']);
+	gulp.watch('./src/components/**/*.scss', ['scss:dev:components']);
 	gulp.watch("./public/*.html").on('change', browserSync.reload);
 	gulp.watch("./src/_layouts/*.js").on('change', browserSync.reload);
 	gulp.watch("./src/pages/**/*.js").on('change', browserSync.reload);
@@ -165,11 +173,14 @@ gulp.task('dev', ['scss:dev', 'server'], function() {
 ;
 gulp.task('dist', ['scss:dist']);
 
-gulp.task('prepare', ['generate-component-lists', 
-                      "copy:bootstrap:scss", 
-                      "copy:bootstrap:js", 
-                      "copy:tether:js", 
-                      "copy:tether:css", 
-                      "copy:jQuery:base"]
-);
+gulp.task('prepare', ["generate:component-lists",
+                      "copy:bootstrap:scss",
+                      "copy:font-awesome:scss",
+                      "copy:font-awesome:fonts",
+                      "copy:bootstrap:js",
+                      "copy:tether:js",
+                      "copy:tether:css",
+                      "copy:jQuery:base"]);
+
+
 gulp.task('default', ['prepare', "dev"]);

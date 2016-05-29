@@ -2,6 +2,9 @@
 // come second because they use !default (they won't get set if set already) and
 // some of them depend on our overrides.
 
+$fa-font-path: "/fonts/font-awesome";
+@import "font-awesome/font-awesome";
+
 @import "bootstrap-variables-override";
 @import "bootstrap";
 
